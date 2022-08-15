@@ -12,9 +12,17 @@ defmodule TorTracker.Relay do
   def get_info_ids_by_user(%User{} = user) do
     user
     |> Info.Query.for_user()
-    |> Info.Query.info_ids() 
+    |> Info.Query.only_id() 
     |> Repo.all()
 
+  end
+
+  def get_info_fingerprints_by_user(%User{} = user) do
+    user
+    |> Info.Query.for_user()
+    |> Info.Query.only_fingerprint() 
+    |> Repo.all()
+    
   end
   @doc """
   Returns the list of info.
@@ -48,6 +56,9 @@ defmodule TorTracker.Relay do
       ** (Ecto.NoResultsError)
 
   """
+  def get_info_by_fingerprint(fingerprint) do
+    Repo.get_by(Info, fingerprint: fingerprint) 
+  end
   def get_info!(id), do: Repo.get!(Info, id)
 
   @doc """

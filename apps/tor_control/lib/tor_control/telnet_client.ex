@@ -12,7 +12,7 @@ defmodule TorControl.TelnetClient do
   def init({ip, port, channel_id}) do
     {:ok, socket} = :gen_tcp.connect(ip, port, [:binary, active: true])
     Logger.info("Connected to #{inspect(ip)}:#{port}")
-    broadcast_fn = &broadcast(@channel_name <> ":" <> Integer.to_string(channel_id), &1)
+    broadcast_fn = &broadcast(@channel_name <> ":" <> channel_id, &1)
     {:ok, %{socket: socket, broadcast_fn: broadcast_fn} }
   end
 

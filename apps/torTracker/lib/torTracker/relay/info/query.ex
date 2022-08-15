@@ -9,9 +9,14 @@ defmodule TorTracker.Relay.Info.Query do
     |> where([u], u.user_id == ^user.id)
   end
 
-  def info_ids(query) do
+  def only_id(query) do
     query
     |> select([i], i.id)
+  end
+
+  def only_fingerprint(query) do
+    query
+    |> select([i], i.fingerprint)
   end
 
 end
