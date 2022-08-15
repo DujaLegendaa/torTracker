@@ -3,13 +3,18 @@ defmodule TorTrackerWeb.RelayInfoLive do
   alias TorTracker.{Relay, Accounts}
 
   @impl true
-  def mount(_params, %{"user_token" => token} = _session, socket) do
-    {:ok, assign_user(socket, token)}
+  def mount(_params, %{"user_token" => user_token} = _session, socket) do
+    {:ok,
+      socket
+      |> assign_info_ids(user_token)
+    }
   end
 
-  def assign_user(socket, token) do
-    assign_new(socket, :current_user, fn ->
-      Accounts.get_user_by_session_token(token)
+  def assign_info_ids(socket, user_token) do
+    assign_new(socket, :info_ids, fn ->
+      user_token
+      |> Accounts.get_user_by_session_token()
+      |> Relay.get_info_ids_by_user() 
     end)
   end
 

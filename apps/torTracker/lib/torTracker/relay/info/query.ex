@@ -6,6 +6,12 @@ defmodule TorTracker.Relay.Info.Query do
 
   def for_user(user, query \\ base()) do
     query
-    |> where([d], d.user_id == ^user.id)
+    |> where([u], u.user_id == ^user.id)
   end
+
+  def info_ids(query) do
+    query
+    |> select([i], i.id)
+  end
+
 end

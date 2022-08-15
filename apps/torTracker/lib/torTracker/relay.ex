@@ -9,6 +9,13 @@ defmodule TorTracker.Relay do
   alias TorTracker.Relay.Info
   alias TorTracker.Accounts.User
 
+  def get_info_ids_by_user(%User{} = user) do
+    user
+    |> Info.Query.for_user()
+    |> Info.Query.info_ids() 
+    |> Repo.all()
+
+  end
   @doc """
   Returns the list of info.
 
@@ -55,9 +62,10 @@ defmodule TorTracker.Relay do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_info(attrs \\ %{}) do
+  def create_info(%User{} = user, attrs \\ %{}) do
     %Info{}
     |> Info.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end
 
@@ -73,9 +81,15 @@ defmodule TorTracker.Relay do
       {:error, %Ecto.Changeset{}}
 
   """
+  def update_realtime_info(%Info{} = info, attrs) do
+    info
+    |> Info.update_realtime_info_changeset(attrs)
+    |> Repo.update()
+  end
+
   def update_info(%Info{} = info, attrs) do
     info
-    |> Info.changeset(attrs)
+    |> Info.update_changeset(attrs)
     |> Repo.update()
   end
 

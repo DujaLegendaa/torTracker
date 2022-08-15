@@ -1,0 +1,5 @@
+<section class="row">
+  <%= for info_id <- @info_ids do %>
+    <%= live_render(@socket, TorTrackerWeb.RelayInfoLive.Single, id: "relay_info" <> Integer.to_string(info_id), session: %{"info_id" => info_id}) %>
+  <% end %>
+</section>

@@ -1,0 +1,22 @@
+<div class="container w-auto p-12 hidden md:flex md:justify-around">
+  <div
+    class="rounded-xl h-[225px] w-[175px] bg-gradient-to-b from-blue-300 to-blue-400 text-gray-100 cursor-pointer"
+  >
+    <h1 class="text-center text-3xl py-1 font-semibold">RAM</h1>
+    <p class="text-center"><%= @ram_usage %></p>
+  </div>
+
+  <div
+    class="rounded-xl h-[225px] w-[175px] bg-gradient-to-b from-green-300 to-green-400 text-gray-100 cursor-pointer"
+  >
+    <h1 class="text-center text-3xl py-1 font-semibold">CPU</h1>
+    <p class="text-center"><%= @cpu_usage %></p>
+  </div>
+
+  <div
+    class="rounded-xl h-[225px] w-[175px] bg-gradient-to-b from-purple-300 to-purple-400 text-gray-100 cursor-pointer"
+  >
+    <h1 class="text-center text-2xl py-1.5 font-semibold">UpTime</h1>
+      <p class="text-center"><%= @uptime_sec %></p>
+  </div>
+</div>
