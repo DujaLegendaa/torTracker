@@ -51,7 +51,8 @@ defmodule TorTrackerWeb.MixProject do
       {:torTracker, in_umbrella: true},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:tailwind, "~> 0.1"}
+      {:tailwind, "~> 0.1"},
+      {:tor_control, in_umbrella: true}
     ]
   end
 

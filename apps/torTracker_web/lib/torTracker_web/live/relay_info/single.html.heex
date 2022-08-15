@@ -19,4 +19,15 @@
     <h1 class="text-center text-2xl py-1.5 font-semibold">UpTime</h1>
       <p class="text-center"><%= @uptime_sec %></p>
   </div>
+  <%= if @pid do %>
+    <%= if not @authenticated? do %>
+      <p>Not authenticated</p>
+      <form phx-submit="authenticate"> 
+        <input name="password" type="text">
+        <button type="submit">Submit</button>
+      </form>
+    <% end %>
+  <% else %>
+    <button phx-click="connect">Connect</button>
+  <% end %>
 </div>

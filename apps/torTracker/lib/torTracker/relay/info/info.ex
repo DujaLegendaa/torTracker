@@ -20,6 +20,13 @@ defmodule TorTracker.Relay.Info do
     timestamps()
   end
 
+  def ip_to_tuple(ip) do
+    ip
+    |> String.split(".")
+    |> Enum.map(&String.to_integer/1)
+    |> List.to_tuple()
+  end
+
   defp validate_positive(changeset, field) do
     validate_number(changeset, field, greater_than_or_equal_to: 0)
   end

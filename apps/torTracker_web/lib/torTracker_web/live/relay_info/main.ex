@@ -1,4 +1,4 @@
-defmodule TorTrackerWeb.RelayInfoLive do
+defmodule TorTrackerWeb.RelayInfoLive.Main do
   use TorTrackerWeb, :live_view
   alias TorTracker.{Relay, Accounts}
 
