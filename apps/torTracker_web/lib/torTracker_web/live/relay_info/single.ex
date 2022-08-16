@@ -5,11 +5,16 @@ defmodule TorTrackerWeb.RelayInfoLive.Single do
   alias TorTracker.Relay.Info
   require Logger
 
+  @base_channel "relay_info"
+
+  def get_channel(id) do
+    @base_channel <> ":" <> id
+  end
 
   @impl true
   def mount(_params, %{"info_fingerprint" => fingerprint}, socket) do
     if connected?(socket) do
-      TorTrackerWeb.Endpoint.subscribe("relay_info:" <> fingerprint)
+      TorTrackerWeb.Endpoint.subscribe(get_channel(fingerprint))
     end
     {:ok, socket |> assign_info(fingerprint) |> assign_realtime_vars() |> assign_control_vars() }
   end
@@ -40,9 +45,11 @@ defmodule TorTrackerWeb.RelayInfoLive.Single do
 
   @impl true
   def handle_event("connect", _params, socket) do
-    %Info{ip: ip, port: port, id: id} = socket.assigns.info
+    %Info{ip: ip, port: port, fingerprint: fingerprint} = socket.assigns.info
     ip = Relay.Info.ip_to_tuple(ip)
-    pid = TorControl.connect(ip, port, id) 
+
+    pid = TorControl.connect(ip, port, TorTracker.PubSub, get_channel(fingerprint)) 
+
     {:noreply, assign(socket, pid: pid)}
   end
 

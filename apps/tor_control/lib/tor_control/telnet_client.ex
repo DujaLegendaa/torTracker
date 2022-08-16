@@ -3,25 +3,23 @@ defmodule TorControl.TelnetClient do
   require Logger
   alias Phoenix.PubSub
 
-  @channel_name "relay_info"
-
-  def start_link(ip, port, channel_id, opts \\ []) do
-    GenServer.start_link(__MODULE__, {ip, port, channel_id}, opts)
+  def start_link(ip, port, pubsub, channel, opts \\ []) do
+    GenServer.start_link(__MODULE__, {ip, port, pubsub, channel}, opts)
   end
 
-  def init({ip, port, channel_id}) do
+  def init({ip, port, pubsub, channel}) do
     {:ok, socket} = :gen_tcp.connect(ip, port, [:binary, active: true])
     Logger.info("Connected to #{inspect(ip)}:#{port}")
-    broadcast_fn = &broadcast(@channel_name <> ":" <> channel_id, &1)
+    broadcast_fn = &broadcast(pubsub, channel, &1)
     {:ok, %{socket: socket, broadcast_fn: broadcast_fn} }
   end
 
-  def broadcast(channel, message) when message != nil do
+  def broadcast(pubsub, channel, message) when message != nil do
     Logger.info("Broadcasted #{inspect message} to #{inspect channel}")
-    PubSub.broadcast(TorTracker.PubSub, channel, message)
+    PubSub.broadcast(pubsub, channel, message)
   end
 
-  def broadcast(_channel, message) when message == nil do
+  def broadcast(_pubsub, _channel, message) when message == nil do
 
   end
 

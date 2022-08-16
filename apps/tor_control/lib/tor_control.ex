@@ -15,8 +15,8 @@ defmodule TorControl do
   alias TorControl.TelnetClient
 
 
-  def connect(ip, port, id) do
-    case TelnetClient.start_link(ip, port, id) do
+  def connect(ip, port, pubsub, channel) do
+    case TelnetClient.start_link(ip, port, pubsub, channel) do
       {:ok, pid} ->
         pid
     end
