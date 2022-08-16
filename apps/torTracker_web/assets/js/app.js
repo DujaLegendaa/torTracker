@@ -25,6 +25,7 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 import Alpine from "alpinejs"
+import "../css/bufy.css"
 
 window.Alpine = Alpine
 Alpine.start()

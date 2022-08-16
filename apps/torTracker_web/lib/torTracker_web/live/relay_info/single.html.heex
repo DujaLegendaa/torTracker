@@ -1,25 +1,43 @@
-<div class="container w-auto p-12 hidden md:flex md:justify-around">
-  <div
-    class="rounded-xl h-[225px] w-[175px] bg-gradient-to-b from-blue-300 to-blue-400 text-gray-100 cursor-pointer"
-  >
-    <h1 class="text-center text-3xl py-1 font-semibold">RAM</h1>
-    <p class="text-center"><%= @ram_usage %></p>
-  </div>
+<div class="relative w-full ">
+  <div class="w-auto p-12 hidden md:flex md:justify-around">
+    <div
+      class="rounded-xl h-[225px] w-[175px] bg-gradient-to-b from-blue-300 to-blue-400 text-gray-100 cursor-pointer"
+    >
+      <h1 class="text-center text-3xl py-1 font-semibold">RAM</h1>
+      <p class="text-center"><%= @ram_usage %></p>
+    </div>
 
-  <div
-    class="rounded-xl h-[225px] w-[175px] bg-gradient-to-b from-green-300 to-green-400 text-gray-100 cursor-pointer"
-  >
-    <h1 class="text-center text-3xl py-1 font-semibold">CPU</h1>
-    <p class="text-center"><%= @cpu_usage %></p>
-  </div>
+    <div
+      class="rounded-xl h-[225px] w-[175px] bg-gradient-to-b from-green-300 to-green-400 text-gray-100 cursor-pointer"
+    >
+      <h1 class="text-center text-3xl py-1 font-semibold">CPU</h1>
+      <p class="text-center"><%= @cpu_usage %></p>
+    </div>
 
-  <div
-    class="rounded-xl h-[225px] w-[175px] bg-gradient-to-b from-purple-300 to-purple-400 text-gray-100 cursor-pointer"
-  >
-    <h1 class="text-center text-2xl py-1.5 font-semibold">UpTime</h1>
-      <p class="text-center"><%= @uptime_sec %></p>
+    <div
+      class="rounded-xl h-[225px] w-[175px] bg-gradient-to-b from-purple-300 to-purple-400 text-gray-100 cursor-pointer"
+    >
+      <h1 class="text-center text-2xl py-1.5 font-semibold">UpTime</h1>
+        <p class="text-center"><%= @uptime_sec %></p>
+    </div>
   </div>
-  <%= if @pid do %>
+  <%= if @pid == nil or not @authenticated? do %>
+    <div class="absolute flex items-center justify-center w-full h-full top-0 left-0 bg-black opacity-70">
+      <%= if @pid == nil do %>
+        <button phx-click="connect" class="bg-white py-6 px-10 rounded-xl text-black font-semibold text-xl hover:bg-cyan-600 ease-in duration-150">Connect</button>
+      <% end %>
+      <%= if not @authenticated? and @pid do %>
+        <form phx-submit="authenticate" class="flex flex-col"> 
+          <label for="password_input" class="text-white">Tor control password:</label> 
+          <input name="password" type="text" id="password_input">
+          <button type="submit">Submit</button>
+        </form>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+  <!-- <%= if @pid do %>
     <%= if not @authenticated? do %>
       <p>Not authenticated</p>
       <form phx-submit="authenticate"> 
@@ -29,5 +47,4 @@
     <% end %>
   <% else %>
     <button phx-click="connect">Connect</button>
-  <% end %>
-</div>
+  <% end %> -->
