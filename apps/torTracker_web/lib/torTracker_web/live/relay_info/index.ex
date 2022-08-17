@@ -1,4 +1,4 @@
-defmodule TorTrackerWeb.RelayInfoLive.Main do
+defmodule TorTrackerWeb.RelayInfoLive.Index do
   use TorTrackerWeb, :live_view
   alias TorTracker.{Relay, Accounts}
 
@@ -16,6 +16,11 @@ defmodule TorTrackerWeb.RelayInfoLive.Main do
       |> Accounts.get_user_by_session_token()
       |> Relay.get_info_fingerprints_by_user() 
     end)
+  end
+
+  @impl true
+  def handle_params(_, _, socket) do
+    {:noreply, socket}
   end
 
 end
