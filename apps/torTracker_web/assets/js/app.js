@@ -25,11 +25,17 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 import Alpine from "alpinejs"
-import "../css/bufy.css"
+import make_chart from "../js/relay_info_charts.js"
 
 window.Alpine = Alpine
 Alpine.start()
 let hooks = {}
+hooks.make_chart = {
+  mounted() {
+    make_chart(this.el)
+  }
+
+}
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
   params: {_csrf_token: csrfToken}, 
