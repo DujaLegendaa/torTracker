@@ -57,4 +57,12 @@ defmodule TorTrackerWeb.LiveHelpers do
     |> JS.hide(to: "#modal", transition: "fade-out")
     |> JS.hide(to: "#modal-content", transition: "fade-out-scale")
   end
+
+  def overlay(%{inner_block: _} = assigns) do
+~H"""
+  <div class="absolute flex items-center justify-center w-full h-full top-0 left-0 bg-black opacity-70">
+    <%= render_slot(@inner_block) %>
+  </div>
+  """
+  end
 end

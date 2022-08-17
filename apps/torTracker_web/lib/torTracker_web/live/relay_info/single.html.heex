@@ -1,10 +1,10 @@
 <div class="relative flex w-full gap-x-10 p-4">
   <.stats cpu_usage={@cpu_usage} ram_usage={@ram_usage} uptime_sec={@uptime_sec} />
-<div>
-  <canvas id={"chart:" <> @info.fingerprint} phx-update="ignore" class="h-full" phx-hook="make_chart"></canvas>
-</div>
+  <div>
+    <canvas id={"chart:" <> @info.fingerprint} phx-update="ignore" class="h-full" phx-hook="make_chart"></canvas>
+  </div>
   <%= if @pid == nil or not @authenticated? do %>
-    <div class="absolute flex items-center justify-center w-full h-full top-0 left-0 bg-black opacity-70">
+    <.overlay>
       <%= if @pid == nil do %>
         <button phx-click="connect" class="btn btn-primary btn-lg">Connect</button>
       <% end %>
@@ -17,7 +17,7 @@
           <button type="submit" class="btn btn-primary btn-sm mt-6">Submit</button>
         </form>
       <% end %>
-    </div>
+    </.overlay>
   <% end %>
 </div>
 
