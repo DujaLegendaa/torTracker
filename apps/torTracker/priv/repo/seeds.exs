@@ -19,7 +19,7 @@ alias TorTracker.Relay
 Repo.delete_all Info
 Repo.delete_all User
 
-{:ok, user} = Accounts.register_user(%{email: "test@mail.com", password: "testtesttest"})
+{:ok, user} = Accounts.register_user(%{nickname: "Buffy bu", email: "test@mail.com", password: "testtesttest"})
 
 Relay.create_info(user, %{fingerprint: "11testFINGERPRINTtest11", ip: "192.168.0.23", port: 9051})
 

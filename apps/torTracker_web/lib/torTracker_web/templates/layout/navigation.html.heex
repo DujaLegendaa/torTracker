@@ -1,0 +1,28 @@
+
+<%= if @current_user do %>
+<div id="mali profil" class="p-10 flex flex-row min-w-[249px]">
+  <img src="/images/capy.jpg" class="h-[60px] rounded-3xl" />
+  <p class="py-3.5 px-3 text-2xl font-semibold whitespace-nowrap text-gray-700 "><%= @current_user.nickname %></p>
+</div>
+
+<div id="dugmici" class="flex flex-col pl-10 pr-20 pb-20 gap-y-[2px] font-semibold">
+  
+  <button class="relative flex items-center justify-between h-[50px] bg-gradient-to-r 
+                from-[#3b1c4a] via-[#e9daf1] to-white text-right border-l-[8px] border-[#291334]
+                transition delay-50 hover:translate-x-4">
+    <img src="/images/onion.svg" class="absoulte h-full ml-1"/>
+    <%= live_redirect "Relay info", to: Routes.relay_info_index_path(@conn, :index), class: "justify-self-end" %>
+  </button>
+  <button class="h-[50px] bg-gradient-to-r from-[#7cccd0] via-[#ecf8f8] to-white text-right border-l-[8px] border-[#65c3c8]">Button</button>
+  <button class="h-[50px] bg-gradient-to-r from-[#f4bed2] via-[#fbe9f0] to-white text-right border-l-[8px] border-[#ef9fbc]">Button</button>
+  <button class="h-[50px] bg-gradient-to-r from-[#f1bc5b] via-[#fbecd0] to-white text-right border-l-[8px] border-[#eeaf3a]">Button</button>
+</div>
+<% end %>
+
+
+<div class="dropdown dropdown-top pl-10 pt-30 pb-10">
+  <label tabindex="0" class="btn m-1">menu</label>
+  <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+    <%= render "_user_menu.html", assigns %>
+  </ul>
+</div>
