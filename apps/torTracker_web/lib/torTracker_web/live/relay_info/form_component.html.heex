@@ -1,0 +1,15 @@
+<div>
+<.form let={f} for={@changeset} phx-submit="save">
+  <%= label f, :fingerprint %>
+  <%= text_input f, :fingerprint, class: "input" %>
+  <%= error_tag f, :fingerprint %>
+
+  <%= label f, :ip %>
+  <%= text_input f, :ip, class: "input" %>
+  <%= error_tag f, :ip %>
+  
+  <%= label f, :port %>
+  <%= text_input f, :port, inputmode: "numeric", pattern: "[0-9]*", class: "input" %>
+  <%= error_tag f, :port %>
+</.form>
+</div>

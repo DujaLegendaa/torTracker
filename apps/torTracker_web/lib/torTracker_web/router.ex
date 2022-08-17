@@ -79,7 +79,8 @@ defmodule TorTrackerWeb.Router do
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
-    live "/relay_info", RelayInfoLive.Main, :index
+    live "/relay_info", RelayInfoLive.Index, :index
+    live "/relay_info/new", RelayInfoLive.Index, :new
 
   end
 
