@@ -6,7 +6,7 @@
   <%= if @pid == nil or not @authenticated? do %>
     <.overlay>
       <%= if @pid == nil do %>
-        <button phx-click="connect" class="btn btn-primary btn-lg">Connect</button>
+        <button phx-click="connect" class="btn transition btn-primary btn-lg hover:ease-in duration-300">Connect</button>
       <% end %>
       <%= if not @authenticated? and @pid do %>
         <form phx-submit="authenticate" class="flex flex-col"> 

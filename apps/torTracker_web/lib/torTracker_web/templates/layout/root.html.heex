@@ -9,14 +9,37 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
-  <body>
-    <header>
-      <section class="container">
-        <nav>
+  <body class="flex relative divide-x-2 w-full h-full">
+
+    <div id="levo" class="flex flex-col pt-19 w-1/6 min-w-[227px] gap-y-4 bg-white justify-between">
+      <div id="mali profil" class="p-10 flex flex-row min-w-[249px]">
+        <img src="/images/capy.jpg" class="h-[60px] rounded-3xl" />
+        <p class="py-3.5 px-3 text-2xl font-semibold whitespace-nowrap text-gray-700 ">Bufy bu</p>
+      </div>
+
+      <div id="dugmici" class="flex flex-col pl-10 pr-20 pb-20 gap-y-[2px] font-semibold">
+        <button class="h-[50px] bg-gradient-to-r from-[#3b1c4a] via-[#e9daf1] to-white text-right border-l-[8px] border-[#291334]">Button</button>
+        <button class="h-[50px] bg-gradient-to-r from-[#7cccd0] via-[#ecf8f8] to-white text-right border-l-[8px] border-[#65c3c8]">Button</button>
+        <button class="h-[50px] bg-gradient-to-r from-[#f4bed2] via-[#fbe9f0] to-white text-right border-l-[8px] border-[#ef9fbc]">Button</button>
+        <button class="h-[50px] bg-gradient-to-r from-[#f1bc5b] via-[#fbecd0] to-white text-right border-l-[8px] border-[#eeaf3a]">Button</button>
+      </div>
+      
+      <div class="dropdown dropdown-top pl-10 pt-30 pb-10">
+        <label tabindex="0" class="btn m-1">menu</label>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
           <%= render "_user_menu.html", assigns %>
-        </nav>
-      </section>
-    </header>
-    <%= @inner_content %>
+        </ul>
+      </div>
+      <!--<div class="pl-10 pt-30 pb-10">
+        <%= render "_user_menu.html", assigns %>
+      </div>
+      -->
+    </div>
+
+  <!-- chartovi - sredina -->
+    <div class="w-4/6">
+      <%= @inner_content %>
+    </div>
+    <div id="desno" class="w-1/6 bg-slate-100"></div>
   </body>
 </html>
