@@ -1,7 +1,7 @@
 <div class="relative flex w-full gap-x-10 p-4">
   <.stats cpu_usage={@cpu_usage} ram_usage={@ram_usage} uptime_sec={@uptime_sec} />
   <div>
-    <canvas id={"chart:" <> @info.fingerprint} phx-update="ignore" class="h-full" phx-hook="make_chart"></canvas>
+    <canvas id={"chart:" <> @info.fingerprint} phx-update="ignore" class="h-full" phx-hook="LineChart"></canvas>
   </div>
   <div class="flex flex-wrap flex-col self-center font-semibold gap-y-2">
     <p>Fingerprint: <%= @info.fingerprint %></p>

@@ -25,4 +25,8 @@ defmodule TorControl do
   def authenticate(pid, password) do
     TelnetClient.auth(pid, password)
   end
+
+  def enable_bw(pid) do
+    TelnetClient.enable_bw(pid)
+  end
 end
