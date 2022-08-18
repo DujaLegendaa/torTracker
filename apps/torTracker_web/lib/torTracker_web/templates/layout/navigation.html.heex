@@ -8,11 +8,18 @@
 <div id="dugmici" class="flex flex-col pr-[3rem] pb-20 gap-y-[1rem] font-semibold">
   
   <button class="relative flex items-center justify-between h-[50px] bg-gradient-to-r 
-                from-[#3b1c4a] via-[#e9daf1] to-white text-right border-l-[8px] border-[#291334]
+                from-[#843ea8] via-[#e9daf1] to-white text-right border-l-[8px] border-[#763795]
                 transition delay-50 hover:translate-x-4">
     <img src="/images/onion.svg" class="absoulte h-full ml-1"/>
     <%= live_redirect "Relay info", to: Routes.relay_info_index_path(@conn, :index), class: "justify-self-end" %>
   </button>
+  <!--    PRETHODAN BUTTON
+  <button class="relative flex items-center justify-between h-[50px] bg-gradient-to-r 
+                from-[#3b1c4a] via-[#e9daf1] to-white text-right border-l-[8px] border-[#291334]
+                transition delay-50 hover:translate-x-4">
+    <img src="/images/onion.svg" class="absoulte h-full ml-1"/>
+    <%= live_redirect "Relay info", to: Routes.relay_info_index_path(@conn, :index), class: "justify-self-end" %>
+  </button> -->
   <button class="h-[50px] bg-gradient-to-r from-[#7cccd0] via-[#ecf8f8] to-white text-right border-l-[8px] border-[#65c3c8]">Button</button>
   <button class="h-[50px] bg-gradient-to-r from-[#f4bed2] via-[#fbe9f0] to-white text-right border-l-[8px] border-[#ef9fbc]">Button</button>
   <button class="h-[50px] bg-gradient-to-r from-[#f1bc5b] via-[#fbecd0] to-white text-right border-l-[8px] border-[#eeaf3a]">Button</button>

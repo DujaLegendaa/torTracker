@@ -12,12 +12,12 @@ export default class {
           {
             label: "Read",
             data: [],
-            borderColor: "#5a95eb"
+            borderColor: "#ef9fbc"
           },
           {
             label: "Write",
             data: [],
-            borderColor: "#8deb98"
+            borderColor: "#eeaf3a"
           }
         ]
       },
