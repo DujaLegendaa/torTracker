@@ -4,9 +4,9 @@
       <.live_component module={TorTrackerWeb.RelayInfoLive.FormComponent} id="form" />
     </.modal>
   <% end %>
-<%= for fingerprint <- @info_fingerprints do %>
-  <div class="border-2 border-black m-4">
-  <%= live_render(@socket, TorTrackerWeb.RelayInfoLive.Single, id: "relay_info:" <> fingerprint, session: %{"info_fingerprint" => fingerprint}) %>
-  </div>
-<% end %>
+  <%= for info <- @info_list do %>
+    <div class="border-2 border-black m-4">
+      <%= live_render(@socket, TorTrackerWeb.RelayInfoLive.Single, id: "relay_info:" <> info.fingerprint, session: %{"info" => info}) %>
+    </div>
+  <% end %>
 </div>

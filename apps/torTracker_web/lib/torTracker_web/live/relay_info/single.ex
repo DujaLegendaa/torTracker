@@ -12,22 +12,21 @@ defmodule TorTrackerWeb.RelayInfoLive.Single do
   end
 
   @impl true
-  def mount(_params, %{"info_fingerprint" => fingerprint}, socket) do
+  def mount(_params, %{"info" => info}, socket) do
     if connected?(socket) do
-      TorTrackerWeb.Endpoint.subscribe(get_channel(fingerprint))
+      TorTrackerWeb.Endpoint.subscribe(get_channel(info.fingerprint))
     end
     {:ok,
       socket
-      |> assign_info(fingerprint) 
+      |> assign_info(info) 
       |> assign_realtime_vars() 
       |> assign_control_vars() 
     }
   end
 
-  def assign_info(socket, fingerprint) do
-    assign_new(socket, :info, fn ->
-      Relay.get_info_by_fingerprint(fingerprint)
-    end)
+  def assign_info(socket, info) do
+    socket
+    |> assign_new(:info, fn -> info end) 
   end
 
   def assign_realtime_vars(socket) do
