@@ -2,6 +2,9 @@
   "dependencies": {
     "alpinejs": "^3.10.3",
     "chart.js": "^3.9.1",
-    "daisyui": "^2.24.0"
+    "chartjs-adapter-luxon": "^1.2.0",
+    "chartjs-plugin-streaming": "^2.0.0",
+    "daisyui": "^2.24.0",
+    "luxon": "^3.0.1"
   }
 }

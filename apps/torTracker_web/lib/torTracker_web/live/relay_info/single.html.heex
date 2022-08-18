@@ -3,6 +3,14 @@
   <div>
     <canvas id={"chart:" <> @info.fingerprint} phx-update="ignore" class="h-full" phx-hook="make_chart"></canvas>
   </div>
+  <div>
+    <p>Fingerprint: <%= @info.fingerprint %></p>
+    <p>Name: <%= @info.name %></p>
+    <p>IP: <%= @info.ip %></p>
+    <p>Port: <%= @info.port %></p>
+    <p>Bandwidth limit: <%= @info.bandwidth_limit %></p>
+    <p>Bandwidth burst: <%= @info.bandwidth_burst %></p>
+  </div>
   <%= if @pid == nil or not @authenticated? do %>
     <.overlay>
       <%= if @pid == nil do %>
