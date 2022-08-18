@@ -1,7 +1,7 @@
 defmodule TorControl.TelnetClient do
   use GenServer
-  require Logger
   alias Phoenix.PubSub
+  require Logger
 
   def start_link(ip, port, pubsub, channel, opts \\ []) do
     GenServer.start_link(__MODULE__, {ip, port, pubsub, channel}, opts)
@@ -9,13 +9,11 @@ defmodule TorControl.TelnetClient do
 
   def init({ip, port, pubsub, channel}) do
     {:ok, socket} = :gen_tcp.connect(ip, port, [:binary, active: true])
-    Logger.info("Connected to #{inspect(ip)}:#{port}")
     broadcast_fn = &broadcast(pubsub, channel, &1)
     {:ok, %{socket: socket, broadcast_fn: broadcast_fn} }
   end
 
   def broadcast(pubsub, channel, message) when message != nil do
-    Logger.info("Broadcasted #{inspect message} to #{inspect channel}")
     PubSub.broadcast(pubsub, channel, message)
   end
 
@@ -37,9 +35,6 @@ defmodule TorControl.TelnetClient do
   end
 
   def handle_info({:tcp, _socket, data}, %{broadcast_fn: broadcast_fn} = state) do
-
-    Logger.info("Recieved #{inspect(data)}")
-
     data
     |> split()
     |> make_message()
@@ -102,7 +97,6 @@ defmodule TorControl.TelnetClient do
 
 
   def handle_cast({:send, data}, %{socket: socket} = state) do
-    Logger.info("Sending #{inspect(data)}")
     :gen_tcp.send(socket, data)
     {:noreply, state}
   end

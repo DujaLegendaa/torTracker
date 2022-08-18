@@ -48,6 +48,15 @@ defmodule TorTrackerWeb.RelayInfoLive.Single do
     {:noreply, assign(socket, authenticated?: false) |> connect()}
   end
 
+  def handle_info(%{read: read, written: written}, socket) do
+    event_name = "new_point:chart:" <> socket.assigns.info.fingerprint
+    {:noreply,
+      socket
+      |> push_event(event_name, %{label: "Read", value: read})
+      |> push_event(event_name, %{label: "Write", value: written})
+    }
+  end
+
   def connect(socket) do
     %Info{ip: ip, port: port, fingerprint: fingerprint} = socket.assigns.info
     ip = Relay.Info.ip_to_tuple(ip)
@@ -66,8 +75,11 @@ defmodule TorTrackerWeb.RelayInfoLive.Single do
   def handle_event("authenticate", %{"password" => password}, socket) do
     Logger.info("trying to authenticate with password #{password}")
     TorControl.authenticate(socket.assigns.pid, password)
+    TorControl.enable_bw(socket.assigns.pid)
     {:noreply, assign(socket, authenticated?: true)}
   end
+
+
 
   def stats(%{cpu_usage: _, ram_usage: _, uptime_sec: _} = assigns) do
 ~H"""
