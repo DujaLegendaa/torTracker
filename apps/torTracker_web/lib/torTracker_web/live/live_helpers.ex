@@ -65,4 +65,12 @@ defmodule TorTrackerWeb.LiveHelpers do
   </div>
   """
   end
+
+  def tooltip(%{inner_block: _, text: _} = assigns) do
+~H"""
+    <div class="tooltip h-fit" data-tip={@text}> 
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
 end

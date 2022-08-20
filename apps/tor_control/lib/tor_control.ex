@@ -29,4 +29,8 @@ defmodule TorControl do
   def enable_bw(pid) do
     TelnetClient.enable_bw(pid)
   end
+
+  def sync(pid) do
+    TelnetClient.sync(pid)
+  end
 end
