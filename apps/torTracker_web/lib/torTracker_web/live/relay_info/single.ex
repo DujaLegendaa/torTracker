@@ -8,25 +8,19 @@ defmodule TorTrackerWeb.RelayInfoLive.Single do
   @base_channel "relay_info"
 
   def get_channel(id) do
-    @base_channel <> ":" <> id
+    @base_channel <> ":" <> Integer.to_string(id)
   end
 
   @impl true
   def mount(_params, %{"info" => info}, socket) do
     if connected?(socket) do
-      TorTrackerWeb.Endpoint.subscribe(get_channel(info.fingerprint))
+      TorTrackerWeb.Endpoint.subscribe(get_channel(info.id))
     end
     {:ok,
       socket
-<<<<<<< HEAD
-      |> assign_info(fingerprint)
-      |> assign_realtime_vars()
-      |> assign_control_vars()
-=======
       |> assign_info(info)
       |> assign_realtime_vars()
       |> assign_control_vars()
->>>>>>> 70ab9a5d5c1cda79c0d4a41bd24f475afc766f63
     }
   end
 
@@ -62,29 +56,50 @@ defmodule TorTrackerWeb.RelayInfoLive.Single do
     }
   end
 
+  def update_info(attrs, socket) do
+    {:ok, info} = Relay.update_info(socket.assigns.info, attrs)
+    {:noreply,
+      assign(socket, info: info)
+    }
+  end
+
+  def handle_info(%{bandwidth_limit: _limit} = attr, socket) do
+    update_info(attr, socket)
+  end
+
+  def handle_info(%{bandwidth_burst: _burst} = attr, socket) do
+    update_info(attr, socket)
+  end
+
+  def handle_info(%{fingerprint: _fingerprint} = attr, socket) do
+    update_info(attr, socket)
+  end
+
+
+
   def connect(socket) do
-    %Info{ip: ip, port: port, fingerprint: fingerprint} = socket.assigns.info
+    %Info{ip: ip, port: port, id: id} = socket.assigns.info
     ip = Relay.Info.ip_to_tuple(ip)
-
-    pid = TorControl.connect(ip, port, TorTracker.PubSub, get_channel(fingerprint))
-
+    pid = TorControl.connect(ip, port, TorTracker.PubSub, get_channel(id))
     assign(socket, pid: pid)
   end
 
   @impl true
   def handle_event("connect", _params, socket) do
-
     {:noreply, connect(socket)}
   end
 
   def handle_event("authenticate", %{"password" => password}, socket) do
     Logger.info("trying to authenticate with password #{password}")
     TorControl.authenticate(socket.assigns.pid, password)
-    TorControl.enable_bw(socket.assigns.pid)
+    #TorControl.enable_bw(socket.assigns.pid)
     {:noreply, assign(socket, authenticated?: true)}
   end
 
-
+  def handle_event("sync", _params, socket) do
+    TorControl.sync(socket.assigns.pid)
+    {:noreply, socket}
+  end
 
   def stats(%{cpu_usage: _, ram_usage: _, uptime_sec: _} = assigns) do
 ~H"""

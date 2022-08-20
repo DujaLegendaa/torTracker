@@ -8,9 +8,9 @@ defmodule TorTracker.Relay.Info do
     field :name,            :string
     field :ip,              :string,                  default: "0.0.0.0"
     field :port,            :integer,                 default: 9051
+    field :bandwidth_burst, :integer,     default: 0
+    field :bandwidth_limit, :integer,     default: 0
 
-    field :bandwidth_burst, :float,   virtual: true,  default: 0.0
-    field :bandwidth_limit, :float,   virtual: true,  default: 0.0
     field :cpu_usage,       :float,   virtual: true,  default: 0.0
     field :ram_usage,       :integer, virtual: true,  default: 0
     field :uptime_sec,      :integer, virtual: true,  default: 0
@@ -59,8 +59,7 @@ defmodule TorTracker.Relay.Info do
     |> cast(attrs, [:fingerprint, :name, :bandwidth_limit, :bandwidth_burst, :ip, :port])
     |> unique_constraint(:fingerprint)
     |> validate_positive(:bandwidth_limit)
-    |> validate_number(:bandwidth_limit, less_than: attrs[:bandwidth_limit])
-    |> validate_positive(:bandwidth_limit)
+    |> validate_positive(:bandwidth_burst)
     |> validate_ip_and_port()
     
   end

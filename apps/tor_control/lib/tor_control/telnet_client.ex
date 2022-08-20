@@ -14,7 +14,10 @@ defmodule TorControl.TelnetClient do
   end
 
   def broadcast(pubsub, channel, message) when message != nil do
-    PubSub.broadcast(pubsub, channel, message)
+    if message != :ok do
+      Logger.info("broadcasted #{inspect message}")
+      PubSub.broadcast(pubsub, channel, message)
+    end
   end
 
   def broadcast(_pubsub, _channel, message) when message == nil do
@@ -29,16 +32,25 @@ defmodule TorControl.TelnetClient do
     send_data(pid, ['setevents BW'])
   end
 
+  def sync(pid) do
+    send_data(pid, ['getconf BandwidthRate'])
+    send_data(pid, ['getconf BandwidthBurst'])
+    send_data(pid, ['getinfo fingerprint'])
+  end
+
   def send_data(pid, data) do
+    Logger.info("Send #{inspect data}")
     data = data ++ ['\n'] 
     GenServer.cast(pid, {:send, data})
   end
 
   def handle_info({:tcp, _socket, data}, %{broadcast_fn: broadcast_fn} = state) do
+    Logger.info("Got #{inspect data}")
     data
     |> split()
-    |> make_message()
-    |> broadcast_fn.()
+    |> Stream.map(&make_message/1)
+    |> Stream.map(&broadcast_fn.(&1))
+    |> Stream.run()
 
     {:noreply, state}
   end
@@ -49,19 +61,14 @@ defmodule TorControl.TelnetClient do
 
   def split(resp) do
     resp
-    |> String.replace("\r\n", " ")
-    |> String.trim(" ")
-    |> String.split(" ")
+    |> String.trim("\r\n")
+    |> String.split("\r\n")
+    |> Enum.map(&String.split(&1, " "))
     
   end    
 
-  # ["250", "OK", "650", "BW", "1000", "2000"]
-  def make_message(["250", "OK" | rest]) do 
-    make_message(rest)
-  end
-
-  def make_message([]) do
-    
+  def make_message(["250", "OK"]) do 
+    :ok
   end
 
   def make_message(["515", "Authentication", "failed:" | _rest]) do
@@ -70,6 +77,18 @@ defmodule TorControl.TelnetClient do
 
   def make_message(["650", "BW", read, written]) do
     %{read: read, written: written}
+  end
+
+  def make_message(["250", "BandwidthRate=" <> limit]) do
+    %{bandwidth_limit: String.to_integer limit}
+  end
+
+  def make_message(["250", "BandwidthBurst=" <> burst]) do
+    %{bandwidth_burst: String.to_integer burst}
+  end
+
+  def make_message(["250-fingerprint=" <> fingerprint]) do
+    %{fingerprint: fingerprint}
   end
 
   def bytes_repr(bytes) do

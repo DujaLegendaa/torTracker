@@ -1,9 +1,21 @@
 <div class="relative flex w-full gap-x-10 p-4">
   <.stats cpu_usage={@cpu_usage} ram_usage={@ram_usage} uptime_sec={@uptime_sec} />
   <div>
-    <canvas id={"chart:" <> @info.fingerprint} phx-update="ignore" class="h-full" phx-hook="LineChart"></canvas>
+    <canvas id={"chart:" <> Integer.to_string(@info.id)} phx-update="ignore" class="h-full" phx-hook="LineChart"></canvas>
   </div>
   <div class="flex flex-wrap flex-col self-center font-semibold gap-y-2">
+    <div class="self-end">
+    <.tooltip text="Sync">
+      <svg phx-click="sync" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition duration-300 hover:-rotate-[60deg] hover:text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+      </svg>
+    </.tooltip>
+    <.tooltip text="Configure">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+      </svg>
+    </.tooltip>
+  </div>
     <p>Fingerprint: <%= @info.fingerprint %></p>
     <p>Name: <%= @info.name %></p>
     <p>IP: <%= @info.ip %></p>
