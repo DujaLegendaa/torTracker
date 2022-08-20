@@ -1,7 +1,8 @@
 <div class="relative flex w-full gap-x-10 p-4">
   <.stats cpu_usage={@cpu_usage} ram_usage={@ram_usage} uptime_sec={@uptime_sec} />
-  <div>
+  <div class="relative">
     <canvas id={"chart:" <> Integer.to_string(@info.id)} phx-update="ignore" class="h-full" phx-hook="LineChart"></canvas>
+    <button class="btn btn-primary" phx-click="enable_bw">Enable bandwidth tracking</button>
   </div>
   <div class="flex flex-wrap flex-col self-center font-semibold gap-y-2">
     <div class="self-end">
@@ -16,12 +17,16 @@
       </svg>
     </.tooltip>
   </div>
-    <p>Fingerprint: <%= @info.fingerprint %></p>
+    <p>Fingerprint: 
+      <a target="_blank" href={"https://metrics.torproject.org/rs.html#details/" <> @info.fingerprint}>
+        <%= @info.fingerprint %>
+      </a>
+    </p>
     <p>Name: <%= @info.name %></p>
     <p>IP: <%= @info.ip %></p>
     <p>Port: <%= @info.port %></p>
-    <p>Bandwidth limit: <%= @info.bandwidth_limit %></p>
-    <p>Bandwidth burst: <%= @info.bandwidth_burst %></p>
+    <p>Bandwidth limit: <%= format_bytes @info.bandwidth_limit %></p>
+    <p>Bandwidth burst: <%= format_bytes @info.bandwidth_burst %></p>
   </div>
   <%= if @pid == nil or not @authenticated? do %>
     <.overlay>

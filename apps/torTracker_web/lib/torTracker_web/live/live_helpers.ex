@@ -73,4 +73,18 @@ defmodule TorTrackerWeb.LiveHelpers do
     </div>
     """
   end
+
+  def format_bytes(bytes, decimal \\ 2) do
+    k = 1024
+    sizes = ["Bytes", "KB", "MB"]
+
+    i = trunc(:math.log(bytes) / :math.log(k))
+
+    Float.round(bytes / :math.pow(k, i), decimal)
+    bytes 
+    |> Kernel./(:math.pow(k, i))
+    |> Float.round(decimal)
+    |> Float.to_string()
+    |> Kernel.<>(Enum.at(sizes, i)) 
+  end
 end

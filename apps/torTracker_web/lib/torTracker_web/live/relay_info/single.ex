@@ -48,7 +48,7 @@ defmodule TorTrackerWeb.RelayInfoLive.Single do
   end
 
   def handle_info(%{read: read, written: written}, socket) do
-    event_name = "new_point:chart:" <> socket.assigns.info.fingerprint
+    event_name = "new_point:chart:" <> Integer.to_string(socket.assigns.info.id)
     {:noreply,
       socket
       |> push_event(event_name, %{label: "Read", value: read})
@@ -92,14 +92,20 @@ defmodule TorTrackerWeb.RelayInfoLive.Single do
   def handle_event("authenticate", %{"password" => password}, socket) do
     Logger.info("trying to authenticate with password #{password}")
     TorControl.authenticate(socket.assigns.pid, password)
-    #TorControl.enable_bw(socket.assigns.pid)
     {:noreply, assign(socket, authenticated?: true)}
+  end
+
+  def handle_event("enable_bw", _params, socket) do
+    TorControl.enable_bw(socket.assigns.pid)
+    {:noreply, socket}
   end
 
   def handle_event("sync", _params, socket) do
     TorControl.sync(socket.assigns.pid)
     {:noreply, socket}
   end
+
+  
 
   def stats(%{cpu_usage: _, ram_usage: _, uptime_sec: _} = assigns) do
 ~H"""
