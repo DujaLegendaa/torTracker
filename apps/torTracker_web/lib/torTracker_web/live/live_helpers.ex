@@ -74,6 +74,10 @@ defmodule TorTrackerWeb.LiveHelpers do
     """
   end
 
+  def format_bytes(0, decimal) do
+    "0Bytes"
+  end
+
   def format_bytes(bytes, decimal \\ 2) do
     k = 1024
     sizes = ["Bytes", "KB", "MB"]

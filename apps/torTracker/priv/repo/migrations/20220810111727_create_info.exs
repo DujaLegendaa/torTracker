@@ -5,8 +5,8 @@ defmodule TorTracker.Repo.Migrations.CreateInfo do
     create table(:info) do
       add :fingerprint, :string
       add :name, :string
-      add :bandwidth_limit, :float
-      add :bandwidth_burst, :float
+      add :bandwidth_limit, :integer
+      add :bandwidth_burst, :integer
       add :flags, {:array, :string}
       add :ip, :string
       add :port, :integer
